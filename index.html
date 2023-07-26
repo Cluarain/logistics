@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Logistics</title>
+</head>
+
+<body>
+    <section class="menu">
+        <!-- Ваше меню здесь -->
+    </section>
+    <section class="content">
+        <header class="header">
+            <span class="h1_title">Проведение ТО и мелкий ремонт</span>
+            <div class="nav-menu">
+                <a href="#" class="nav-item">Общее</a>
+                <a href="#" class="nav-item active">Товар списания</a>
+                <a href="#" class="nav-item">Доп. расходы</a>
+            </div>
+        </header>
+        <main class="main">
+            <div class="label">
+                <button class="btn btn-add-row"><img src="SVG/plus.svg" alt=""> Добавить строку</button>
+            </div>
+            <div class="label">
+                <div class="settings-svg">
+                    <img src="SVG/settings.svg" alt="Настройки">
+                </div>
+                <div id="columns-menu">
+                    <!-- Здесь будут отображаться доступные столбцы для выбора -->
+                </div>
+                <div id="table-container">
+                    <div>
+                        <button id="columnToggle">Показать/Скрыть столбцы</button>
+                    </div>
+                    <table id="dynamicTable" class="display" style="width:100%"></table>
+                </div>
+                <div class="delete-popup" id="delete-popup">
+                    <button id="delete-button" class="btn">Удалить</button>
+                </div>
+            </div>
+        </main>
+    </section>
+    <footer class="footer"></footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.jqueryui.min.js"></script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

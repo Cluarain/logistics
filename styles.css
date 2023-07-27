@@ -1,8 +1,10 @@
 :root {
     --left-menu-width: 229px;
+    --light-navy:#1253a2;
 }
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -28,17 +30,19 @@ body, html {
         width: var(--left-menu-width);
         background-image: radial-gradient(circle at 29% 0, #000, #1c2734 103%);
     }
+
     .content {
         margin-left: var(--left-menu-width);
     }
 }
 
 
-.content{
+.content {
     padding: 25px;
 }
+
 .nav-menu {
-flex-wrap: wrap;
+    flex-wrap: wrap;
     font-size: 16px;
     font-weight: 600;
     color: #1253a2;
@@ -82,17 +86,32 @@ flex-wrap: wrap;
     margin: 20px 25px;
 }
 
-.settings-svg{
-  display: flex;
-  justify-content: flex-end;
-  margin: 9px 15px;
+.settings-svg {
+    display: flex;
+    justify-content: flex-end;
+    margin: 9px 15px;
+}
+.delete-svg:hover{
+    filter: brightness(0.7);
 }
 
 .delete-popup {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 10px;
     z-index: 1;
-  }
+}
+.delete-btn{
+    text-align: left;
+    width: 179px;
+    color: #ae0a0a;
+    padding: 7px 10px;
+    font-size: 14px;
+    box-shadow: 0 0 3px 0 #000, inset 0 1px 2px 0 rgba(255, 255, 255, 0.5);
+    background-color: #fff;
+}
+#data-table tr th{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}

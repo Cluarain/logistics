@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css">
     <link rel="stylesheet" href="styles.css">
 
     <title>Logistics</title>
@@ -36,16 +36,13 @@
                     <!-- Здесь будут отображаться доступные столбцы для выбора -->
                 </div>
                 <div id="table-container">
-                    <div>
-                        <button id="columnToggle">Показать/Скрыть столбцы</button>
-                    </div>
-                    <table id="dynamicTable" class="display" style="width:100%"></table>
-                </div>
-                <div class="delete-popup" id="delete-popup">
-                    <button id="delete-button" class="btn">Удалить</button>
+                    <table id="data-table">
+                        <!-- Здесь будет динамически генерироваться таблица -->
+                    </table>
                 </div>
             </div>
         </main>
+
     </section>
     <footer class="footer"></footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

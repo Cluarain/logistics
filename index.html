@@ -26,25 +26,59 @@
         </header>
         <main class="main">
             <div class="label">
-                <button class="btn btn-add-row"><img src="SVG/plus.svg" alt=""> Добавить строку</button>
+                <button class="btn btn-add-row"><img src="SVG/plus.svg" class="svg-plus" alt="+">Добавить
+                    строку</button>
             </div>
-            <div class="label">
+            <div id="hide-on-mobile" class="label">
                 <div class="settings-svg">
-                    <img src="SVG/settings.svg" alt="Настройки">
+                    <img id="id_settings-svg" src="SVG/settings.svg" alt="Настройки">
+                    <div class="settings-popup">
+                        <div class="settings-popup-btn">Отображение столбцов&ensp;<img class="arrowSVG"
+                                src="SVG/arrow.svg" alt=">">
+                        </div>
+                        <div id="columns-menu">
+                            <!-- Здесь будут отображаться доступные столбцы для выбора -->
+                        </div>
+                    </div>
                 </div>
-                <div id="columns-menu">
-                    <!-- Здесь будут отображаться доступные столбцы для выбора -->
-                </div>
-                <div id="table-container">
-                    <table id="data-table">
-                        <!-- Здесь будет динамически генерироваться таблица -->
+                <div class="table-container overflow-auto">
+                    <table id="data-table" class="table">
                     </table>
                 </div>
             </div>
-        </main>
+            <datalist id="datalist-for-name">
 
+            </datalist>
+            <style>
+                datalist {
+                    position: absolute;
+                    max-height: 20em;
+                    border: 0 none;
+                    overflow-x: hidden;
+                    overflow-y: auto;
+                }
+
+                datalist option {
+                    font-size: 0.8em;
+                    padding: 0.3em 1em;
+                    background-color: #ccc;
+                    cursor: pointer;
+                }
+
+                datalist option:hover,
+                datalist option:focus {
+                    color: #fff;
+                    background-color: #036;
+                    outline: 0 none;
+                }
+            </style>
+            <div id="mobile-table" class="container">
+                <!-- Здесь будут добавлены блоки данных из JavaScript -->
+            </div>
+        </main>
     </section>
     <footer class="footer"></footer>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -52,7 +86,6 @@
     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.jqueryui.min.js"></script>
 
     <script src="script.js"></script>
-
 </body>
 
 </html>

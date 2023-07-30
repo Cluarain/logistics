@@ -186,6 +186,23 @@ $(document).ready(function () {
                 }
             });
         });
+        $(function () {
+            $("th").resizable({
+                // animate: true,
+                handles: "e",
+                maxWidth: 1300,
+                minWidth: 1,
+                resize: function (event, ui) {
+                    // console.log(ui.size.width);
+                    var thIndex = ui.helper.index();
+                    var table = $("#data-table");
+                    var cells = table.find("tr td:nth-child(" + (thIndex + 1) + ")");
+                    cells.css("width", ui.size.width);
+                    cells.css("max-width", ui.size.width);
+                    // saveTableState();
+                }
+            });
+        });
     }
 
     // localStorage.clear();
@@ -245,24 +262,6 @@ $(document).ready(function () {
             }
         });
         $('thead tr').disableSelection();
-    });
-
-    $(function () {
-        $("th").resizable({
-            // animate: true,
-            handles: "e",
-            maxWidth: 1300,
-            minWidth: 1,
-            resize: function (event, ui) {
-                // console.log(ui.size.width);
-                var thIndex = ui.helper.index();
-                var table = $("#data-table");
-                var cells = table.find("tr td:nth-child(" + (thIndex + 1) + ")");
-                cells.css("width", ui.size.width);
-                cells.css("max-width", ui.size.width);
-                // saveTableState();
-            }
-        });
     });
 
     $(document).on('click', '.delete-svg', function (event) {

@@ -226,16 +226,11 @@ html {
     table-layout: fixed;
     width: max-content;
 }
-
-.helper {
-    /* color: red; */
-}
-
 .placeholder {
     background-color: #eeeff1;
 }
 
-.col1 {
+/* .col1 {
     width: 25px;
 }
 
@@ -258,7 +253,7 @@ html {
 
 .col7 {
     width: 122px;
-}
+} */
 
 #data-table thead tr th {
     max-width: 0;

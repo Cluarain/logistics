@@ -96,6 +96,9 @@ const tableData = [
 ];
 const $dataTable = $('#data-table');
 const $columnsMenu = $('#columns-menu');
+// let colWidth = ['col1', 'col2', 'col3', 'col4', 'col5', 'col6', 'col7', 'co8', 'col9', 'col10'];
+let colWidth = ['25px', '12px', '603px', '196px', '147px', '147px', '122px', '147px', '147px', '147px'];
+
 $(document).ready(function () {
     function renderTable(data) {
         $dataTable.empty();
@@ -112,12 +115,11 @@ $(document).ready(function () {
         $dataTable.append(headerRow);
         $dataTable.append('<tbody>');
 
-        const colWidth = ['col1', 'col2', 'col3', 'col4', 'col5', 'col6', 'col7', 'co8', 'col9', 'col10'];
 
         data.forEach((row, index) => {
             let rowHTML = '<tr>';
-            rowHTML += `<td class="column-nomer-dragndrop ${colWidth[0]}">${dragndropSVG}${index + 1}</td>`; // Столбец "номер"
-            rowHTML += `<td class="${colWidth[1]}">
+            rowHTML += `<td style="width: ${colWidth[0]}" class="column-nomer-dragndrop">${dragndropSVG}${index + 1}</td>`; // Столбец "номер"
+            rowHTML += `<td style="width: ${colWidth[1]}">
             <div class="delete-dots d-flex">
                 <div class="delete-svg" id="${index}">
                     <img src="SVG/3dot.svg" alt="Удалить">
@@ -129,7 +131,7 @@ $(document).ready(function () {
             let i = 0;
             tableColumns.forEach((column) => {
                 if (column !== 'Номер' && column !== 'Действие' && (alwaysVisibleColumns.includes(column) || hideableColumns.includes(column))) {
-                    rowHTML += `<td data-column="${column}" class="${colWidth[i]}"><input type="text" class="data-column-input" value="${row[column]}"></td>`;
+                    rowHTML += `<td data-column="${column}" style="width: ${colWidth[i]}"><input type="text" class="data-column-input" value="${row[column]}"></td>`;
                 }
                 i++;
             });
@@ -144,15 +146,15 @@ $(document).ready(function () {
 
             mobileTableBlock += `<div class="block-header">Действие</div>`;
             mobileTableBlock += `<div class="data-cell">
-      <div class="delete-dots d-flex">
-          <div class="delete-svg" id="${index}">
-              <img src="SVG/3dot.svg" alt="Удалить">
-          </div>
-          <div class="delete-popup" id="${index}">
-              <button class="btn delete-btn">Удалить</button>
-          </div>
-      </div>
-  </div>`;
+                <div class="delete-dots d-flex">
+                    <div class="delete-svg" id="${index}">
+                        <img src="SVG/3dot.svg" alt="Удалить">
+                    </div>
+                    <div class="delete-popup" id="${index}">
+                        <button class="btn delete-btn">Удалить</button>
+                    </div>
+                </div>
+            </div>`;
             tableColumns.forEach((column) => {
                 if (column !== 'Номер' && column !== 'Действие' && (alwaysVisibleColumns.includes(column) || hideableColumns.includes(column))) {
                     mobileTableBlock += `<div class="block-header">${column}</div>`;
@@ -164,10 +166,29 @@ $(document).ready(function () {
             $('#mobile-table').append(mobileTableBlock);
 
         });
-        // loadColumnState();
         // localStorage.clear();
+        // loadTableState();
+        $(function () {
+            $("#data-table tbody").sortable({
+                axis: 'y',
+                handle: '.dragndrop-svg',
+                placeholder: 'sortable-placeholder',
+                start: function (event, ui) {
+                    const $currentRow = $(ui.item);
+                    // console.log($currentRow);
+                    ui.helper.height($currentRow.height() - 4);
+                    ui.placeholder.height($currentRow.height() - 4);
+                },
+                stop: function (event, ui) {
+                    updateRowNumbers();
+                    // saveTableState();
+                    // localStorage.clear();
+                }
+            });
+        });
     }
 
+    // localStorage.clear();
     // Функция для обновления списка столбцов в меню
     function renderColumnsMenu() {
         $columnsMenu.empty();
@@ -192,24 +213,7 @@ $(document).ready(function () {
         });
     }
 
-    $(function () {
-        $("#data-table tbody").sortable({
-            axis: 'y',
-            handle: '.dragndrop-svg',
-            placeholder: 'sortable-placeholder',
-            start: function (event, ui) {
-                const $currentRow = $(ui.item);
-                // console.log($currentRow);
-                ui.helper.height($currentRow.height() - 4);
-                ui.placeholder.height($currentRow.height() - 4);
-            },
-            stop: function (event, ui) {
-                updateRowNumbers();
-                saveColumnState();
-                // localStorage.clear();
-            }
-        });
-    });
+
 
     $(function () {
         $('thead tr').sortable({
@@ -237,7 +241,7 @@ $(document).ready(function () {
                     }
                     cell.removeClass("drg").css("color", "black");
                 });
-                saveColumnState();
+                // saveTableState();
             }
         });
         $('thead tr').disableSelection();
@@ -256,7 +260,7 @@ $(document).ready(function () {
                 var cells = table.find("tr td:nth-child(" + (thIndex + 1) + ")");
                 cells.css("width", ui.size.width);
                 cells.css("max-width", ui.size.width);
-                saveColumnState();
+                // saveTableState();
             }
         });
     });
@@ -274,7 +278,7 @@ $(document).ready(function () {
             $(".delete-popup").hide();
         }
     });
-    
+
     $(document).on("click", ".delete-btn", function () {
         var row = $(this).closest("tr");
         var datablock = $(this).closest(".data-block");
@@ -347,25 +351,6 @@ function saveEnabledColumns() {
     //////////////////////////////////////////////////////////
     localStorage.setItem('enabledColumns', JSON.stringify(enabledColumns));
 }
-
-function saveColumnState() {
-    const columnState = {};
-    $dataTable.find('th').each(function (index) {
-        const columnName = $(this).text();
-        const columnWidth = $(this).width();
-
-        console.log(columnName, columnWidth);
-        columnState[columnName] = {
-            index: index,
-            width: columnWidth
-        };
-    })
-    ///////////////////////////////////////////////////////////
-    localStorage.setItem('columnState', JSON.stringify(columnState));
-}
-
-
-// Загрузка сохраненных включенных колонок
 function loadEnabledColumns() {
     const enabledColumns = JSON.parse(localStorage.getItem('enabledColumns'));
     if (enabledColumns) {
@@ -376,52 +361,67 @@ function loadEnabledColumns() {
     }
 }
 
+// function saveTableState() {
+//     const tableState = {
+//         columns: [],
+//         rows: [],
+//         columnOrder: [],
+//         rowOrder: []
+//     };
+
+//     $("#data-table th").each(function () {
+//         const column = {
+//             index: $(this).index(),
+//             width: $(this).width()
+//         };
+//         tableState.columns.push(column);
+//         tableState.columnOrder.push(column.index); // Сохраняем порядок столбцов
+//     });
+
+//     // Сохраняем положение, порядок и строк
+//     $("#data-table tbody tr").each(function () {
+//         const row = {
+//             index: $(this).index(),
+//             top: $(this).position().top
+//         };
+//         tableState.rows.push(row);
+//         tableState.rowOrder.push(row.index); // Сохраняем порядок строк
+//     });
+
+//     // Сохраняем данные в LocalStorage
+//     localStorage.setItem("tableState", JSON.stringify(tableState));
+// }
+
+
 // Загрузка сохраненного состояния столбцов
-function loadColumnState() {
+// function loadTableState() {
+//     const tableStateString = localStorage.getItem("tableState");
+//     console.log(tableStateString);
+//     if (tableStateString) {
+//         const tableState = JSON.parse(tableStateString);
 
+//         // Восстанавливаем порядок столбцов
+//         tableState.columnOrder.forEach(function (columnIndex, order) {
+//             const th = $("#data-table th").eq(columnIndex);
+//             th.css("order", order);
+//         });
 
-    const columnState = JSON.parse(localStorage.getItem('columnState'));
-    if (columnState) {
-        const columns = $dataTable.find('th');
-        columns.detach().sort(function (a, b) {
-            const columnNameA = $(a).text();
-            const columnNameB = $(b).text();
-            return columnState[columnNameA].index - columnState[columnNameB].index;
-        });
-        $dataTable.find('tr').each(function () {
-            $(this).children('td, th').each(function (index) {
-                const columnName = columns.eq(index).text();
-                $(this).css('width', columnState[columnName].width + 'px');
-            });
-        });
-        $dataTable.append(columns);
-    }
+//         // Восстанавливаем положение и ширину столбцов
+//         tableState.columns.forEach(function (column) {
+//             const th = $("#data-table th").eq(column.index);
+//             th.width(column.width);
+//         });
 
-    // const columnState = JSON.parse(localStorage.getItem('columnState'));
-    // if (columnState) {
-    //     const columns = $dataTable.find('th');
-    //     columns.detach().sort(function (a, b) {
-    //         const columnNameA = $(a).text();
-    //         const columnNameB = $(b).text();
-    //         return columnState[columnNameA].index - columnState[columnNameB].index;
-    //     });
+//         // Восстанавливаем порядок строк
+//         tableState.rowOrder.forEach(function (rowIndex, order) {
+//             const tr = $("#data-table tbody tr").eq(rowIndex);
+//             tr.css("order", order);
+//         });
 
-    //     // Устанавливаем ширину каждого столбца с учетом сохраненных значений
-    //     columns.each(function () {
-    //         const columnName = $(this).text();
-    //         const columnWidth = columnState[columnName].width;
-    //         $(this).css('width', columnWidth + 'px');
-    //     });
-
-    //     // Добавляем столбцы обратно в таблицу с сохраненным порядком
-    //     $dataTable.find('tr').each(function () {
-    //         $(this).children('td, th').each(function (index) {
-    //             const columnName = columns.eq(index).text();
-    //             $(this).css('width', columnState[columnName].width + 'px');
-    //         });
-    //     });
-
-    //     // Вставляем столбцы обратно в таблицу
-    //     $dataTable.append(columns);
-    // }
-}
+//         // Восстанавливаем положение строк
+//         tableState.rows.forEach(function (row) {
+//             const tr = $("#data-table tbody tr").eq(row.index);
+//             tr.css("top", row.top);
+//         });
+//     }
+// }
